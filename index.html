@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión Estelar ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-cyan: #00ffff;
+            --primary-pink: #ff00ff;
+            --primary-purple: #7c3aed;
+            --primary-orange: #f97316;
+            --dark-bg: #0f051a;
+            --darker-bg: #0a0312;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(229, 231, 235, 0.2);
+            --success-green: #00ff88;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--darker-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Fondo animado */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -5;
+            background: linear-gradient(135deg, #0a0312 0%, #1a0b2e 100%);
+        }
+
+        .cyber-gradient {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            animation: gradientRotate 30s linear infinite;
+            filter: blur(60px);
+        }
+
+        @keyframes gradientRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Grid de fondo */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -4;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            padding: 4rem;
+            border-radius: 0;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.8)); }
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 2px solid var(--border-color);
+            color: var(--primary-cyan);
+            font-family: inherit;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+        }
+
+        .code-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .validate-btn {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            color: var(--darker-bg);
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .validate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .validate-btn:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 2rem;
+            padding: 1rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.success {
+            color: var(--success-green);
+            text-shadow: 0 0 10px var(--success-green);
+        }
+
+        .message.error {
+            color: var(--primary-orange);
+            text-shadow: 0 0 10px var(--primary-orange);
+        }
+
+        /* Contador de estrellas */
+        .star-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+            z-index: 100;
+        }
+
+        .star-counter-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .star-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-cyan);
+            text-shadow: 0 0 15px var(--primary-cyan);
+        }
+
+        /* Estrellas flotantes */
+        .floating-star {
+            position: fixed;
+            font-size: 2rem;
+            animation: floatStar 15s infinite linear;
+            z-index: 5;
+            filter: drop-shadow(0 0 10px currentColor);
+            pointer-events: none;
+        }
+
+        @keyframes floatStar {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Efecto de partículas */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFade 1s ease-out forwards;
+            z-index: 20;
+        }
+
+        @keyframes particleFade {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--dx), var(--dy)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Lista de códigos válidos */
+        .valid-codes-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            max-width: 200px;
+            clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+        }
+
+        .hint-title {
+            color: var(--primary-purple);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 2rem;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .star-counter {
+                top: 20px;
+                right: 20px;
+                padding: 0.8rem 1.2rem;
+            }
+
+            .valid-codes-hint {
+                bottom: 20px;
+                left: 20px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg">
+        <div class="cyber-gradient"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <div class="star-counter">
+    <div class="star-counter-label">Tus Estrellas</div>
+        <div class="star-count" id="starCount">0</div>
+    </div>
+
+    <div class="main-container">
+    <h1>Misión Estelar</h1>
+    <p class="subtitle">Tu misión, si decides aceptarla, es encontrar códigos✨</p>
+        
+        <div class="input-group">
+            <input 
+                type="text" 
+                class="code-input" 
+                id="codeInput" 
+                placeholder="CÓDIGO"
+                maxlength="10"
+                autocomplete="off"
+            >
+        </div>
+        
+        <button class="validate-btn" id="validateBtn">Validar Código</button>
+        
+        <div class="message" id="message"></div>
+    </div>
+
+    <div class="valid-codes-hint">
+    <div class="hint-title">¿Buscas una pista?</div>
+    Si necesitas una pista, aquí tienes algunas ideas para desbloquear el misterio:<br>
+        <ul style="text-align:left; margin-top:0.5em;">
+            <li>¿Qué acción tuya puede iluminar mi día sin decir una sola palabra?</li>
+            <li>¿Qué pequeño tesoro encuentro en lugares inesperados y me hace sonreír?</li>
+            <li>Una Acción inesperada</li>
+            <li>¿Qué palabra, cuando la escucho de ti, me apendeja?</li>
+            <li>¿Qué detalle tuyo me hace sentir cuidado incluso en los días difíciles?</li>
+        </ul>
+        (¡O pídele una pista a tu secreto!)
+    </div>
+
+    <script>
+
+        let starComplete = 0;
+
+        const validCodeHashes = [
+            '3c3ed271cd258995038a3a85adb62b5df365629cc434a8a21491afed06ff0294', 
+            'c00cdf7c2a0c9f33702c75696678bd66f03c2d215de7b9f5a72d628972290fd2', 
+            '789cfd0bd0f4ad6e030398b8cd1517d58d1a0726ce952d741614d2e5904aa73f', 
+            '37373745b117520858cf3fa4078a7c3024b71c96c862b0ee842a34a6755ac516', 
+            '692e9a218a2b3addc921b30184fd2a5f29ec39d6ff22fe6d429714a74aa4d2ff', 
+            '0747f0ec4adfb9e340110434b5d7877508eda9628016fe6c704ea2653fd01740'  // Easter egg :)
+        ];
+
+        async function hashCode(code) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(code);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        const starColors = ['#00ffff', '#ff00ff', '#ffff00', '#00ff88', '#ff6b6b', '#4ecdc4'];
+        
+        const starSymbols = ['⭐', '✨', '🌟', '💫', '⚡', '✦', '✧', '★'];
+        
+        let starCount = 0;
+        let usedCodes = new Set();
+        
+        const codeInput = document.getElementById('codeInput');
+        const validateBtn = document.getElementById('validateBtn');
+        const message = document.getElementById('message');
+        const starCountElement = document.getElementById('starCount');
+
+        for (let i = 0; i < starComplete; i++) {
+            createFloatingStar();
+        }
+
+        setInterval(() => {
+            createFloatingStarVisual();
+        }, 2000); // cada 2 segundos
+
+        function createFloatingStarVisual() {
+            const star = document.createElement('div');
+            star.className = 'floating-star';
+            star.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.color = starColors[Math.floor(Math.random() * starColors.length)];
+            star.style.animationDuration = (10 + Math.random() * 10) + 's';
+            star.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+            document.body.appendChild(star);
+            setTimeout(() => {
+                star.remove();
+            }, 20000);
+        }
+
+        function createFloatingStar() {
+            createFloatingStarVisual();
+            starCount++;
+            starCountElement.textContent = starCount;
+            starCountElement.style.animation = 'none';
+            setTimeout(() => {
+                starCountElement.style.animation = 'glow 0.5s ease';
+            }, 10);
+        }
+
+        function createParticleExplosion(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                const angle = (Math.PI * 2 * i) / 20;
+                const velocity = 50 + Math.random() * 100;
+                particle.style.setProperty('--dx', Math.cos(angle) * velocity + 'px');
+                particle.style.setProperty('--dy', Math.sin(angle) * velocity + 'px');
+                particle.style.background = starColors[Math.floor(Math.random() * starColors.length)];
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = `message ${type} show`;
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Función para validar código
+        async function validateCode() {
+            const code = codeInput.value.toUpperCase().trim();
+            if (!code) {
+                showMessage('¡Ups! Escribe un código para sumar una estrella 🌟', 'error');
+                return;
+            }
+            if (usedCodes.has(code)) {
+                showMessage('Ese código ya lo usaste, ¡intenta con otro! 😉', 'error');
+                codeInput.value = '';
+                return;
+            }
+            const codeHash = await hashCode(code);
+            if (validCodeHashes.includes(codeHash)) {
+                usedCodes.add(code);
+                if (code === 'ME GUSTAS') {
+                    // Easter egg especial
+                    const isEasterEgg = true;
+                    // Explosión de corazones
+                    for (let i = 0; i < 10; i++) {
+                        setTimeout(() => {
+                            const heart = document.createElement('div');
+                            heart.className = 'floating-star';
+                            heart.textContent = '💖';
+                            heart.style.left = Math.random() * window.innerWidth + 'px';
+                            heart.style.fontSize = '3rem';
+                            heart.style.animationDuration = '8s';
+                            document.body.appendChild(heart);
+                            setTimeout(() => heart.remove(), 8000);
+                        }, i * 300);
+                    }
+                }
+                createFloatingStar();
+                const rect = validateBtn.getBoundingClientRect();
+                createParticleExplosion(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2
+                );
+                if (code === 'ME GUSTAS') {
+                    showMessage('💖 Y tú me encantas... 💖', 'success');
+                } else {
+                    showMessage('¡Genial! Has sumado una estrella más✨', 'success');
+                }
+                codeInput.value = '';
+                if (navigator.vibrate) {
+                    navigator.vibrate(200);
+                }
+                document.body.style.animation = 'flash 0.3s ease';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 300);
+            } else {
+                showMessage('Ese código no es mágico... ¡prueba otro! 💫', 'error');
+                codeInput.value = '';
+                codeInput.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    codeInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Event listeners
+        validateBtn.addEventListener('click', () => {
+            validateCode();
+        });
+        codeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                validateCode();
+            }
+        });
+
+        // Animaciones adicionales
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            
+            @keyframes flash {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.8; background: rgba(0, 255, 255, 0.05); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Efecto de partículas al mover el mouse (opcional)
+        let mouseTimer;
+        document.addEventListener('mousemove', (e) => {
+            if (!mouseTimer) {
+                mouseTimer = setTimeout(() => {
+                    mouseTimer = null;
+                }, 50);
+                
+                if (Math.random() > 0.9) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = e.clientX + 'px';
+                    particle.style.top = e.clientY + 'px';
+                    particle.style.setProperty('--dx', (Math.random() - 0.5) * 50 + 'px');
+                    particle.style.setProperty('--dy', (Math.random() - 0.5) * 50 + 'px');
+                    particle.style.width = '2px';
+                    particle.style.height = '2px';
+                    particle.style.opacity = '0.5';
+                    
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1000);
+                }
+            }
+        });
+
+        
+        codeInput.focus();
+
+        /*
+         * ✨ Easter Egg ✨
+         * Si encontraste este mensaje, es porque sabes buscar muy bien 😉 y me conoces bien 
+         * segun tu violo paginas web.
+         * El código secreto es: ...
+         * Y si estás leyendo esto, quiero que sepas que...
+         * "ME GUSTAS" un montón 💖
+         * 
+         */
+    </script>
+</body>
+</html>
