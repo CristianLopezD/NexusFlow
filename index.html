@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +55,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: 
+            background:
                 radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 60% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
@@ -63,9 +64,17 @@
         }
 
         @keyframes gradientRotate {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
         }
 
         /* Grid de fondo */
@@ -76,7 +85,7 @@
             width: 100%;
             height: 100%;
             z-index: -4;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -84,8 +93,13 @@
         }
 
         @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
         }
 
         /* Contenedor principal */
@@ -117,8 +131,13 @@
         }
 
         @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
-            to { filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.8)); }
+            from {
+                filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+            }
+
+            to {
+                filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.8));
+            }
         }
 
         .subtitle {
@@ -251,12 +270,15 @@
                 transform: translateY(100vh) translateX(0) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-100vh) translateX(100px) rotate(360deg);
                 opacity: 0;
@@ -280,6 +302,7 @@
                 transform: translate(0, 0) scale(1);
                 opacity: 1;
             }
+
             100% {
                 transform: translate(var(--dx), var(--dy)) scale(0);
                 opacity: 0;
@@ -309,6 +332,99 @@
             letter-spacing: 1px;
         }
 
+        /* Modal de completado */
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .completion-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: rgba(15, 15, 35, 0.9);
+            border: 2px solid var(--primary-cyan);
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            margin: auto;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            animation: modalGlow 2s infinite alternate;
+        }
+
+        .completion-modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        @keyframes modalGlow {
+            from {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            }
+
+            to {
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .completion-stars {
+            font-size: 2.5rem;
+            margin: 2rem 0;
+            animation: starPulse 1s infinite alternate;
+        }
+
+        @keyframes starPulse {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            color: var(--darker-bg);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .main-container {
@@ -331,9 +447,22 @@
                 left: 20px;
                 font-size: 0.7rem;
             }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .modal-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .completion-stars {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="cyber-bg">
         <div class="cyber-gradient"></div>
@@ -341,52 +470,71 @@
     <div class="grid-overlay"></div>
 
     <div class="star-counter">
-    <div class="star-counter-label">Tus Estrellas</div>
+        <div class="star-counter-label">Tus Estrellas</div>
         <div class="star-count" id="starCount">0</div>
     </div>
 
     <div class="main-container">
-    <h1>Misión Estelar</h1>
-    <p class="subtitle">Tu misión, si decides aceptarla, es encontrar códigos✨</p>
-        
+        <h1>Misión Estelar</h1>
+        <p class="subtitle">Tu misión, si decides aceptarla, es encontrar códigos✨</p>
+
         <div class="input-group">
-            <input 
-                type="text" 
-                class="code-input" 
-                id="codeInput" 
-                placeholder="CÓDIGO"
-                maxlength="10"
-                autocomplete="off"
-            >
+            <input type="text" class="code-input" id="codeInput" placeholder="CÓDIGO" maxlength="10" autocomplete="off">
         </div>
-        
-        <button class="validate-btn" id="validateBtn">Validar Código</button>
-        
+
+        <button class="validate-btn" id="validateBtn" style="margin-bottom: 1rem;">Validar Código</button>
+        <button class="validate-btn" id="endGameBtn" style="background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));">Terminar Juego</button>
+
         <div class="message" id="message"></div>
     </div>
 
     <div class="valid-codes-hint">
-    <div class="hint-title">¿Buscas una pista?</div>
-    Si necesitas una pista, aquí tienes algunas ideas para desbloquear el misterio:<br>
+        <div class="hint-title">¿Buscas una pista?</div>
+        Si necesitas una pista, aquí tienes algunas ideas para desbloquear el misterio:<br>
         <ul style="text-align:left; margin-top:0.5em;">
-            <li>¿Qué acción tuya puede iluminar mi día sin decir una sola palabra?</li>
-            <li>¿Qué pequeño tesoro encuentro en lugares inesperados y me hace sonreír?</li>
-            <li>Una Acción inesperada</li>
-            <li>¿Qué palabra, cuando la escucho de ti, me apendeja?</li>
-            <li>¿Qué detalle tuyo me hace sentir cuidado incluso en los días difíciles?</li>
+            <li>¿Qué acción tuya puede iluminar mi día sin decir una sola palabra? R/= Que me sonrías - Código: "VENUS"</li>
+            <li>¿Qué pequeño tesoro encuentro en lugares inesperados y me hace sonreír? R/= Las notas que me dejas - Código: "SIRIUS"</li>
+            <li>Una acción inesperada. R/= Que me consientas - Código: "ORION"</li>
+            <li>¿Qué palabra, cuando la escucho de ti, me apendeja? R/= Que me digas amor - Código: "MERCURY"</li>
+            <li>¿Qué detalle tuyo me hace sentir cuidado incluso en los días difíciles? R/= Que te preocupes por mí - Código: "ANDROMEDA"</li>
         </ul>
         (¡O pídele una pista a tu secreto!)
+        <li>Codigo Oculto: <br> "Me Gustas"</li>
+    </div>
+
+    <!-- Modal de juego completado -->
+    <div class="completion-modal" id="completionModal">
+        <div class="modal-content">
+            <h2>🎉 ¡Felicitaciones! 🎉</h2>
+            <p>¡Has completado la Misión Estelar!</p>
+            <div class="completion-stars">✨⭐✨⭐✨⭐</div>
+            <button class="modal-close-btn" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de despedida -->
+    <div class="completion-modal" id="goodbyeModal">
+        <div class="modal-content">
+            <h2>💫 ¡Muchas Gracias! 💫</h2>
+            <p>Gracias por participar en esta aventura estelar</p>
+            <div class="completion-stars">💖✨💖</div>
+            <button class="modal-close-btn" onclick="endGame()">Hasta pronto</button>
+        </div>
     </div>
 
     <script>
 
-        let starComplete = 1;
+        let starComplete = 6;
+
+        setTimeout(() => {
+            showCompletionModal();
+        }, 1000);
 
         const validCodeHashes = [
-            '3c3ed271cd258995038a3a85adb62b5df365629cc434a8a21491afed06ff0294', 
-            'c00cdf7c2a0c9f33702c75696678bd66f03c2d215de7b9f5a72d628972290fd2', 
-            '789cfd0bd0f4ad6e030398b8cd1517d58d1a0726ce952d741614d2e5904aa73f', 
-            '37373745b117520858cf3fa4078a7c3024b71c96c862b0ee842a34a6755ac516', 
+            '789cfd0bd0f4ad6e030398b8cd1517d58d1a0726ce952d741614d2e5904aa73f',
+            'c00cdf7c2a0c9f33702c75696678bd66f03c2d215de7b9f5a72d628972290fd2',
+            '6723598ceda1f26f2031670089d57ed9c7f57fdfa7393106a5c045fd05d403a8',
+            '79d405dcc3ccf440667fd6f33d09a3ceeb5e15ef911241729b9e07d397909a36',  
             '692e9a218a2b3addc921b30184fd2a5f29ec39d6ff22fe6d429714a74aa4d2ff', 
             '0747f0ec4adfb9e340110434b5d7877508eda9628016fe6c704ea2653fd01740'  // Easter egg :)
         ];
@@ -398,14 +546,14 @@
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
-        
+
         const starColors = ['#00ffff', '#ff00ff', '#ffff00', '#00ff88', '#ff6b6b', '#4ecdc4'];
-        
+
         const starSymbols = ['⭐', '✨', '🌟', '💫', '⚡', '✦', '✧', '★'];
-        
+
         let starCount = 0;
         let usedCodes = new Set();
-        
+
         const codeInput = document.getElementById('codeInput');
         const validateBtn = document.getElementById('validateBtn');
         const message = document.getElementById('message');
@@ -449,15 +597,15 @@
                 particle.className = 'particle';
                 particle.style.left = x + 'px';
                 particle.style.top = y + 'px';
-                
+
                 const angle = (Math.PI * 2 * i) / 20;
                 const velocity = 50 + Math.random() * 100;
                 particle.style.setProperty('--dx', Math.cos(angle) * velocity + 'px');
                 particle.style.setProperty('--dy', Math.sin(angle) * velocity + 'px');
                 particle.style.background = starColors[Math.floor(Math.random() * starColors.length)];
-                
+
                 document.body.appendChild(particle);
-                
+
                 setTimeout(() => particle.remove(), 1000);
             }
         }
@@ -483,6 +631,8 @@
                 return;
             }
             const codeHash = await hashCode(code);
+            console.log(codeHash);
+            
             if (validCodeHashes.includes(codeHash)) {
                 usedCodes.add(code);
                 if (code === 'ME GUSTAS') {
@@ -513,6 +663,10 @@
                 } else {
                     showMessage('¡Genial! Has sumado una estrella más✨', 'success');
                 }
+
+                // Verificar si se completó el juego
+
+
                 codeInput.value = '';
                 if (navigator.vibrate) {
                     navigator.vibrate(200);
@@ -564,7 +718,7 @@
                 mouseTimer = setTimeout(() => {
                     mouseTimer = null;
                 }, 50);
-                
+
                 if (Math.random() > 0.9) {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
@@ -575,14 +729,70 @@
                     particle.style.width = '2px';
                     particle.style.height = '2px';
                     particle.style.opacity = '0.5';
-                    
+
                     document.body.appendChild(particle);
                     setTimeout(() => particle.remove(), 1000);
                 }
             }
         });
 
-        
+
+        // Funciones para el modal de completado
+        function showCompletionModal() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.add('show');
+            // Crear una explosión de partículas en el centro
+            createParticleExplosion(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+            // Crear varias estrellas flotantes para celebrar
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFloatingStarVisual();
+                }, i * 200);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('show');
+        }
+
+        // Función para mostrar el modal de despedida
+        function showGoodbyeModal() {
+            const modal = document.getElementById('goodbyeModal');
+            modal.classList.add('show');
+            // Crear una última explosión de partículas
+            createParticleExplosion(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+            // Crear efecto final de estrellas
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createFloatingStarVisual();
+                }, i * 100);
+            }
+        }
+
+        // Función para terminar el juego
+        function endGame() {
+            // Añadir clase para desvanecer la página
+            document.body.style.transition = 'opacity 2s ease';
+            document.body.style.opacity = '0';
+            
+            // Después de la animación, recargar o redirigir
+            setTimeout(() => {
+                window.close();
+                // Si window.close() no funciona (navegadores modernos lo bloquean)
+                document.body.innerHTML = '<div style="text-align: center; padding: 2rem; color: white;">Gracias por jugar ❤️</div>';
+            }, 2000);
+        }
+
+        // Event listener para el botón de terminar juego
+        document.getElementById('endGameBtn').addEventListener('click', showGoodbyeModal);
+
         codeInput.focus();
 
         /*
@@ -596,4 +806,5 @@
          */
     </script>
 </body>
+
 </html>
